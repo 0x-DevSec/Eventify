@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events UI Kit - Component Documentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="doc-body">
+    <div class="doc-container">
+        <!-- DOC SIDEBAR -->
+        <aside class="doc-sidebar">
+            <h1 class="doc-sidebar__title">Components</h1>
+            <nav class="doc-nav">
+                <a href="#comp-header" class="doc-nav__link">Page Header</a>
+                <a href="#comp-stat-card" class="doc-nav__link">Stat Card</a>
+                <a href="#comp-buttons" class="doc-nav__link">Buttons</a>
+                <a href="#comp-inputs" class="doc-nav__link">Form Controls</a>
+                <a href="#comp-table" class="doc-nav__link">Table</a>
+                <a href="#comp-variants" class="doc-nav__link">Variants Block</a>
+                <a href="#comp-modal" class="doc-nav__link">Modal</a>
+                <a href="#comp-pagination" class="doc-nav__link">Pagination</a>
+                <a href="#comp-alerts" class="doc-nav__link">Alerts</a>
+                <a href="#comp-badges" class="doc-nav__link">Badges & Utils</a>
+                <a href="#js-guide" class="doc-nav__link">JS Integration</a>
+            </nav>
+        </aside>
+
+        <!-- DOC MAIN -->
+        <main class="doc-main">
+
+            <!-- HEADER -->
+            <section id="comp-header" class="doc-section">
+                <h2 class="doc-section__title">Page Header</h2>
+                <p class="doc-section__description">Used at the top of each screen to display title and subtitle.</p>
+
+                <div class="doc-preview">
+                    <header class="page-header">
+                        <div class="page-header__content">
+                            <h2 class="page-title">Statistics</h2>
+                            <p class="page-subtitle">Overview of your events</p>
+                        </div>
+                    </header>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;header class="page-header"&gt;
+    &lt;div class="page-header__content"&gt;
+        &lt;h2 class="page-title" id="page-title"&gt;Statistics&lt;/h2&gt;
+        &lt;p class="page-subtitle" id="page-subtitle"&gt;Overview of your events&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> Update <code>#page-title</code> and <code>#page-subtitle</code> when switching screens.
+                </div>
+            </section>
+
+            <!-- STAT CARD -->
+            <section id="comp-stat-card" class="doc-section">
+                <h2 class="doc-section__title">Stat Card</h2>
+                <p class="doc-section__description">Displays a single statistic with label and value.</p>
+
+                <div class="doc-preview">
+                    <div class="stats-grid" style="max-width: 400px;">
+                        <article class="stat-card">
+                            <p class="stat-card__label">Total Events</p>
+                            <p class="stat-card__value">5</p>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;article class="stat-card"&gt;
+    &lt;p class="stat-card__label"&gt;Total Events&lt;/p&gt;
+    &lt;p class="stat-card__value" id="stat-total-events"&gt;0&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> Update the <code>.stat-card__value</code> by calculating totals from your events array.
+                </div>
+            </section>
+
+            <!-- BUTTONS -->
+            <section id="comp-buttons" class="doc-section">
+                <h2 class="doc-section__title">Buttons</h2>
+                <p class="doc-section__description">Various button styles for different actions.</p>
+
+                <div class="doc-preview">
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                        <button class="btn btn--primary">Primary</button>
+                        <button class="btn btn--ghost">Ghost</button>
+                        <button class="btn btn--danger">Danger</button>
+                        <button class="btn btn--small">Small</button>
+                        <button class="btn btn--icon">→</button>
+                    </div>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;button class="btn btn--primary"&gt;Submit&lt;/button&gt;
+&lt;button class="btn btn--ghost"&gt;Cancel&lt;/button&gt;
+&lt;button class="btn btn--danger"&gt;Delete&lt;/button&gt;
+&lt;button class="btn btn--small"&gt;Small Action&lt;/button&gt;
+&lt;button class="btn btn--icon"&gt;→&lt;/button&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>Usage:</strong> Use <code>.btn--primary</code> for main actions, <code>.btn--danger</code> for destructive actions, <code>.btn--ghost</code> for secondary actions.
+                </div>
+            </section>
+
+            <!-- FORM CONTROLS -->
+            <section id="comp-inputs" class="doc-section">
+                <h2 class="doc-section__title">Form Controls</h2>
+                <p class="doc-section__description">Input fields, selects, and form groups.</p>
+
+                <div class="doc-preview">
+                    <form class="form" style="max-width: 500px;">
+                        <div class="form__group">
+                            <label class="form__label" for="doc-input">Text Input</label>
+                            <input type="text" id="doc-input" class="input" placeholder="Enter text...">
+                        </div>
+
+                        <div class="form__group">
+                            <label class="form__label" for="doc-select">Select</label>
+                            <select id="doc-select" class="select">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                            </select>
+                        </div>
+
+                        <div class="form__group">
+                            <label class="form__label" for="doc-textarea">Textarea</label>
+                            <textarea id="doc-textarea" class="input" rows="3" placeholder="Enter description..."></textarea>
+                        </div>
+
+                        <div class="alert alert--error">
+                            This is an error message
+                        </div>
+                    </form>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;div class="form__group"&gt;
+    &lt;label class="form__label" for="event-title"&gt;Event Title&lt;/label&gt;
+    &lt;input type="text" id="event-title" class="input" placeholder="..."&gt;
+&lt;/div&gt;
+
+&lt;div class="alert alert--error" id="form-errors"&gt;&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> Display validation errors in <code>#form-errors</code>. Hide/show alerts with <code>.is-hidden</code> class.
+                </div>
+            </section>
+
+            <!-- TABLE -->
+            <section id="comp-table" class="doc-section">
+                <h2 class="doc-section__title">Table</h2>
+                <p class="doc-section__description">Data table for displaying events or archive.</p>
+
+                <div class="doc-preview">
+                    <table class="table">
+                        <thead class="table__head">
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Seats</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table__body">
+                            <tr class="table__row">
+                                <td>1</td>
+                                <td>Summer Festival</td>
+                                <td>100</td>
+                                <td>$49.99</td>
+                                <td>
+                                    <button class="btn btn--small" data-action="details">Details</button>
+                                    <button class="btn btn--small" data-action="edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr class="table__row">
+                                <td>2</td>
+                                <td>Winter Concert</td>
+                                <td>150</td>
+                                <td>$59.99</td>
+                                <td>
+                                    <button class="btn btn--small" data-action="details">Details</button>
+                                    <button class="btn btn--small" data-action="edit">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;table class="table" id="events-table"&gt;
+    &lt;thead class="table__head"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;#&lt;/th&gt;
+            &lt;th&gt;Title&lt;/th&gt;
+            &lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody class="table__body"&gt;
+        &lt;tr class="table__row" data-event-id="1"&gt;
+            &lt;td&gt;1&lt;/td&gt;
+            &lt;td&gt;Event Name&lt;/td&gt;
+            &lt;td&gt;
+                &lt;button class="btn btn--small" data-action="edit" data-event-id="1"&gt;Edit&lt;/button&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> Use event delegation on <code>&lt;tbody&gt;</code> to handle button clicks. Use <code>data-event-id</code> and <code>data-action</code> attributes.
+                </div>
+            </section>
+
+            <!-- VARIANTS -->
+            <section id="comp-variants" class="doc-section">
+                <h2 class="doc-section__title">Variants Block</h2>
+                <p class="doc-section__description">Dynamic pricing variants input with add/remove functionality.</p>
+
+                <div class="doc-preview">
+                    <fieldset class="variants" style="max-width: 600px;">
+                        <legend class="variants__title">
+                            Pricing Variants
+                            <button type="button" class="btn btn--small">+ Add Variant</button>
+                        </legend>
+                        <div class="variants__list">
+                            <div class="variant-row">
+                                <input type="text" class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')" value="Early Bird">
+                                <input type="number" class="input variant-row__qty" placeholder="Qty" min="1" value="20">
+                                <input type="number" class="input variant-row__value" placeholder="Value" step="0.01" value="10">
+                                <select class="select variant-row__type">
+                                    <option value="fixed" selected>Fixed Price</option>
+                                    <option value="percentage">Percentage Off</option>
+                                </select>
+                                <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;fieldset class="variants"&gt;
+    &lt;legend class="variants__title"&gt;
+        Pricing Variants
+        &lt;button type="button" class="btn btn--small" id="btn-add-variant"&gt;+ Add Variant&lt;/button&gt;
+    &lt;/legend&gt;
+    &lt;div id="variants-list" class="variants__list"&gt;
+        &lt;div class="variant-row"&gt;
+            &lt;input type="text" class="input variant-row__name" placeholder="Name"&gt;
+            &lt;input type="number" class="input variant-row__qty" placeholder="Qty" min="1"&gt;
+            &lt;input type="number" class="input variant-row__value" placeholder="Value" step="0.01"&gt;
+            &lt;select class="select variant-row__type"&gt;
+                &lt;option value="fixed"&gt;Fixed Price&lt;/option&gt;
+                &lt;option value="percentage"&gt;Percentage Off&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button type="button" class="btn btn--danger btn--small variant-row__remove"&gt;Remove&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/fieldset&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> On click <code>#btn-add-variant</code>, clone a <code>.variant-row</code> template and append to <code>#variants-list</code>. On remove button click, delete that row.
+                </div>
+            </section>
+
+            <!-- MODAL -->
+            <section id="comp-modal" class="doc-section">
+                <h2 class="doc-section__title">Modal</h2>
+                <p class="doc-section__description">Overlay dialog for event details or confirmations.</p>
+
+                <div class="doc-code">
+                    <pre><code>&lt;div class="modal is-hidden" id="event-modal"&gt;
+    &lt;div class="modal__overlay"&gt;&lt;/div&gt;
+    &lt;div class="modal__content"&gt;
+        &lt;header class="modal__header"&gt;
+            &lt;h3 class="modal__title"&gt;Event Details&lt;/h3&gt;
+            &lt;button class="modal__close" data-action="close-modal"&gt;&times;&lt;/button&gt;
+        &lt;/header&gt;
+        &lt;div class="modal__body"&gt;
+            &lt;!-- Content populated by JS --&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tips:</strong> 
+                    <ul>
+                        <li>Remove <code>.is-hidden</code> class to open modal</li>
+                        <li>Add <code>.is-hidden</code> class to close modal</li>
+                        <li>Populate <code>#modal-body</code> with event data</li>
+                        <li>Close modal on overlay click or close button</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- PAGINATION -->
+            <section id="comp-pagination" class="doc-section">
+                <h2 class="doc-section__title">Pagination</h2>
+                <p class="doc-section__description">Navigation for multi-page tables.</p>
+
+                <div class="doc-preview">
+                    <div class="pagination">
+                        <button class="pagination__btn is-disabled">← Prev</button>
+                        <button class="pagination__btn">1</button>
+                        <button class="pagination__btn is-active">2</button>
+                        <button class="pagination__btn">3</button>
+                        <button class="pagination__btn">Next →</button>
+                    </div>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;div class="pagination" id="events-pagination"&gt;
+    &lt;button class="pagination__btn is-disabled"&gt;← Prev&lt;/button&gt;
+    &lt;button class="pagination__btn"&gt;1&lt;/button&gt;
+    &lt;button class="pagination__btn is-active"&gt;2&lt;/button&gt;
+    &lt;button class="pagination__btn"&gt;3&lt;/button&gt;
+    &lt;button class="pagination__btn"&gt;Next →&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> Generate pagination buttons dynamically based on page count. Add <code>.is-active</code> to current page, <code>.is-disabled</code> to unavailable buttons.
+                </div>
+            </section>
+
+            <!-- ALERTS -->
+            <section id="comp-alerts" class="doc-section">
+                <h2 class="doc-section__title">Alerts</h2>
+                <p class="doc-section__description">Messages for errors, success, or information.</p>
+
+                <div class="doc-preview">
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="alert alert--error">❌ This is an error message</div>
+                        <div class="alert alert--success">✅ Success! Event created.</div>
+                        <div class="alert alert--info">ℹ️ This is an info message</div>
+                    </div>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;div class="alert alert--error"&gt;Error message&lt;/div&gt;
+&lt;div class="alert alert--success"&gt;Success message&lt;/div&gt;
+&lt;div class="alert alert--info"&gt;Info message&lt;/div&gt;
+
+&lt;!-- Hide with .is-hidden class --&gt;
+&lt;div class="alert is-hidden"&gt;&lt;/div&gt;</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>JS Tip:</strong> Use <code>.is-hidden</code> class to show/hide alerts. Show form errors in <code>#form-errors</code>.
+                </div>
+            </section>
+
+            <!-- BADGES & UTILITIES -->
+            <section id="comp-badges" class="doc-section">
+                <h2 class="doc-section__title">Badges & Utility Classes</h2>
+                <p class="doc-section__description">Small UI elements and utility classes.</p>
+
+                <div class="doc-preview">
+                    <div style="display: flex; gap: 15px; flex-direction: column;">
+                        <div>
+                            <p style="margin-bottom: 5px; font-size: 12px; color: #666;">Badges:</p>
+                            <span class="badge">3</span>
+                            <span class="badge badge--success">Active</span>
+                            <span class="badge badge--danger">Critical</span>
+                        </div>
+                        <div>
+                            <p style="margin-bottom: 5px; font-size: 12px; color: #666;">Utility Classes:</p>
+                            <p class="text-muted">This text is muted (gray)</p>
+                            <p class="is-hidden">This is hidden</p>
+                            <p class="text-balance">Text that breaks nicely across lines</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-code">
+                    <pre><code>&lt;!-- Badges --&gt;
+&lt;span class="badge"&gt;3&lt;/span&gt;
+&lt;span class="badge badge--success"&gt;Active&lt;/span&gt;
+&lt;span class="badge badge--danger"&gt;Critical&lt;/span&gt;
+
+&lt;!-- Utilities --&gt;
+&lt;p class="text-muted"&gt;Muted text&lt;/p&gt;
+&lt;div class="is-hidden"&gt;Hidden element&lt;/div&gt;
+&lt;div class="is-visible"&gt;Visible element&lt;/div&gt;
+&lt;p class="text-balance"&gt;Balanced text&lt;/p&gt;</code></pre>
+                </div>
+            </section>
+
+            <!-- JAVASCRIPT INTEGRATION -->
+            <section id="js-guide" class="doc-section">
+                <h2 class="doc-section__title">JavaScript Integration Guide</h2>
+                <p class="doc-section__description">Function signatures and integration points for your JavaScript code.</p>
+
+                <div class="doc-code">
+                    <pre><code>// ============================================
+// DATA MANAGEMENT
+// ============================================
+
+// Your app's data structure
+let events = [];
+let archive = [];
+
+// Save/load from localStorage
+function loadData() {
+    // TODO: Load events and archive from localStorage
+    // JSON.parse(localStorage.getItem('events'))
+}
+
+function saveData() {
+    // TODO: Save events and archive to localStorage
+    // localStorage.setItem('events', JSON.stringify(events))
+}
+
+// ============================================
+// SCREEN SWITCHING
+// ============================================
+
+function switchScreen(screenId) {
+    // TODO:
+    // 1. Remove .is-active from all .sidebar__btn
+    // 2. Add .is-active to [data-screen="${screenId}"]
+    // 3. Remove .is-visible from all .screen
+    // 4. Add .is-visible to [data-screen="${screenId}"]
+    // 5. Update #page-title and #page-subtitle based on screenId
+}
+
+// Listen to sidebar button clicks
+// document.querySelectorAll('.sidebar__btn').forEach(btn => {
+//     btn.addEventListener('click', () => switchScreen(btn.dataset.screen))
+// })
+
+// ============================================
+// STATISTICS SCREEN
+// ============================================
+
+function renderStats() {
+    // TODO:
+    // Calculate from events array:
+    const totalEvents = events.length;
+    const totalSeats = events.reduce((sum, e) => sum + e.seats, 0);
+    const totalPrice = events.reduce((sum, e) => sum + e.price * e.seats, 0);
+    
+    // Update DOM:
+    document.getElementById('stat-total-events').textContent = totalEvents;
+    document.getElementById('stat-total-seats').textContent = totalSeats;
+    document.getElementById('stat-total-price').textContent = '$' + totalPrice.toFixed(2);
+}
+
+// ============================================
+// ADD EVENT FORM
+// ============================================
+
+function handleFormSubmit(e) {
+    // TODO:
+    // 1. Prevent default
+    // 2. Validate form inputs
+    // 3. If valid: create new event object, add to events array, save data, reset form
+    // 4. If invalid: show errors in #form-errors
+}
+
+// document.getElementById('event-form').addEventListener('submit', handleFormSubmit)
+
+function addVariantRow() {
+    // TODO:
+    // 1. Clone .variant-row template
+    // 2. Append to #variants-list
+    // 3. Add remove listener to new row's remove button
+}
+
+// document.getElementById('btn-add-variant').addEventListener('click', addVariantRow)
+
+function removeVariantRow(button) {
+    // TODO:
+    // Find closest .variant-row and remove it
+}
+
+// ============================================
+// EVENTS LIST SCREEN
+// ============================================
+
+function renderEventsTable(eventList, page = 1, perPage = 10) {
+    // TODO:
+    // 1. Paginate eventList by page and perPage
+    // 2. Generate table rows for each event
+    // 3. Add data-event-id to each row
+    // 4. Inject into #events-table tbody
+    // 5. Call renderPagination()
+}
+
+function renderPagination(totalItems, currentPage, perPage) {
+    // TODO:
+    // Calculate total pages
+    // Generate pagination buttons
+    // Add .is-active to current page
+    // Add .is-disabled to prev/next if at boundary
+    // Inject into #events-pagination
+}
+
+function handleTableActionClick(e) {
+    // TODO:
+    // 1. Check if e.target is [data-action]
+    // 2. Get action and eventId from attributes
+    // 3. Call appropriate function (showDetails, editEvent, archiveEvent)
+    // Use event delegation on #events-table
+}
+
+// document.getElementById('events-table').addEventListener('click', handleTableActionClick)
+
+function showEventDetails(eventId) {
+    // TODO:
+    // 1. Find event by id in events array
+    // 2. Populate #modal-body with event details
+    // 3. Remove .is-hidden from #event-modal
+}
+
+function editEvent(eventId) {
+    // TODO:
+    // 1. Find event by id
+    // 2. Populate form fields with event data
+    // 3. Switch to 'add' screen
+    // 4. On submit, update existing event instead of creating new
+}
+
+function archiveEvent(eventId) {
+    // TODO:
+    // 1. Find event by id in events
+    // 2. Move to archive array
+    // 3. Remove from events array
+    // 4. Save data
+    // 5. Re-render table
+}
+
+// ============================================
+// ARCHIVE SCREEN
+// ============================================
+
+function renderArchiveTable(archivedList) {
+    // TODO:
+    // Similar to renderEventsTable but read-only
+    // Show "Restore" button instead of "Edit"/"Delete"
+}
+
+function restoreEvent(eventId) {
+    // TODO:
+    // 1. Find event by id in archive
+    // 2. Move back to events array
+    // 3. Remove from archive
+    // 4. Save data
+    // 5. Re-render both tables
+}
+
+// ============================================
+// MODAL
+// ============================================
+
+function openModal(title, content) {
+    // TODO:
+    // 1. Set #modal-title
+    // 2. Set #modal-body content
+    // 3. Remove .is-hidden from #event-modal
+}
+
+function closeModal() {
+    // TODO:
+    // Add .is-hidden to #event-modal
+}
+
+// Listen to close button and overlay click
+// document.getElementById('event-modal').addEventListener('click', (e) => {
+//     if (e.target.dataset.action === 'close-modal' || e.target.classList.contains('modal__overlay')) {
+//         closeModal()
+//     }
+// })
+
+// ============================================
+// SEARCH & SORT
+// ============================================
+
+function searchEvents(query) {
+    // TODO:
+    // Filter events by title (case-insensitive)
+    // Return filtered array
+}
+
+function sortEvents(eventList, sortType) {
+    // TODO:
+    // Sort by: title-asc, title-desc, price-asc, price-desc, seats-asc
+    // Return sorted array
+}
+
+// Listen to search and sort changes
+// document.getElementById('search-events').addEventListener('input', (e) => {
+//     const filtered = searchEvents(e.target.value)
+//     renderEventsTable(filtered)
+// })
+
+// document.getElementById('sort-events').addEventListener('change', (e) => {
+//     const sorted = sortEvents(events, e.target.value)
+//     renderEventsTable(sorted)
+// })
+
+// ============================================
+// INITIALIZATION
+// ============================================
+
+function init() {
+    // TODO:
+    // 1. Load data from localStorage
+    // 2. Render initial screen (statistics)
+    // 3. Set up all event listeners
+    // 4. Call renderStats(), renderEventsTable(), renderArchiveTable()
+}
+
+// Call on page load
+// document.addEventListener('DOMContentLoaded', init)</code></pre>
+                </div>
+
+                <div class="doc-note">
+                    <strong>Key Integration Points:</strong>
+                    <ul>
+                        <li><code>#page-title</code>, <code>#page-subtitle</code> — Update on screen switch</li>
+                        <li><code>#stat-total-events</code>, <code>#stat-total-seats</code>, <code>#stat-total-price</code> — Update stats</li>
+                        <li><code>#event-form</code> — Listen for submit</li>
+                        <li><code>#btn-add-variant</code> — Listen for click</li>
+                        <li><code>#events-table</code> — Event delegation for action buttons</li>
+                        <li><code>#search-events</code>, <code>#sort-events</code> — Listen for input/change</li>
+                        <li><code>#event-modal</code> — Show/hide details</li>
+                        <li><code>.sidebar__btn</code> — Listen for screen switch</li>
+                    </ul>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</body>
+</html>
