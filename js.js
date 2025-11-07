@@ -1,22 +1,39 @@
 // store data
 let events = [];
 let archive = [];
-let btnStats = document.querySelectorAll(".sidebar__btn");
-let screens = document.querySelectorAll(".screen");
 
-// switch screen
-function switchScreen(btn) {
-    const target = btn.dataset.screen;
+const btnStats = document.querySelectorAll(".sidebar__btn");
+const screens = document.querySelectorAll(".screen");
 
-    screens.forEach(screen => {
-        if (screen.dataset.screen === target) {
-            screen.classList.add("is-visible");
-        } else {
-            screen.classList.remove("is-visible");
-        }
-    });
-}
 
+//======================//
+// 1- Switch Screen 
+//=====================//
+
+// attach click listeners
 btnStats.forEach(btn => {
-    btn.addEventListener("click", () => switchScreen(btn));
+  btn.addEventListener("click", () => switchScreen(btn));
 });
+
+// switch screen function
+function switchScreen(btn) {
+  const target = btn.dataset.screen;
+
+  // Hide all screens
+  screens.forEach(screen => {
+    screen.classList.remove("is-visible");
+  });
+
+  // Show the target screen
+  const targetScreen = document.querySelector(`.screen[data-screen="${target}"]`);
+  if (targetScreen) {
+    targetScreen.classList.add("is-visible");
+  }
+
+  // Update active button
+  btnStats.forEach(b => b.classList.remove("is-active"));
+  btn.classList.add("is-active");
+
+  // Update page header
+  document.getElementById("page-title").textContent = btn.querySelector(".sidebar__label").textContent;
+}
