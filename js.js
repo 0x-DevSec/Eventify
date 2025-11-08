@@ -1,9 +1,17 @@
-// store data
+// Variables
+
 let events = [];
 let archive = [];
 
 const btnStats = document.querySelectorAll(".sidebar__btn");
 const screens = document.querySelectorAll(".screen");
+
+const eventForm = document.getElementById("event-form");
+const statTotalEvents = document.getElementById("stat-total-events");
+const statTotalSeats = document.getElementById("stat-total-seats");
+const statTotalPrice = document.getElementById("stat-total-price");
+
+
 
 
 //======================//
@@ -12,28 +20,126 @@ const screens = document.querySelectorAll(".screen");
 
 // attach click listeners
 btnStats.forEach(btn => {
-  btn.addEventListener("click", () => switchScreen(btn));
+    btn.addEventListener("click", () => switchScreen(btn));
 });
 
 // switch screen function
 function switchScreen(btn) {
-  const target = btn.dataset.screen;
+    const target = btn.dataset.screen;
 
-  // Hide all screens
-  screens.forEach(screen => {
-    screen.classList.remove("is-visible");
-  });
+    // Hide all screens
+    screens.forEach(screen => {
+        screen.classList.remove("is-visible");
+    });
 
-  // Show the target screen
-  const targetScreen = document.querySelector(`.screen[data-screen="${target}"]`);
-  if (targetScreen) {
-    targetScreen.classList.add("is-visible");
-  }
+    // Show the target screen
+    const targetScreen = document.querySelector(`.screen[data-screen="${target}"]`);
+    if (targetScreen) {
+        targetScreen.classList.add("is-visible");
+    }
 
-  // Update active button
-  btnStats.forEach(b => b.classList.remove("is-active"));
-  btn.classList.add("is-active");
+    // Update active button
+    btnStats.forEach(b => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
 
-  // Update page header
-  document.getElementById("page-title").textContent = btn.querySelector(".sidebar__label").textContent;
+    // Update page header
+    document.getElementById("page-title").textContent = btn.querySelector(".sidebar__label").textContent;
 }
+
+//======================//
+// 2 - Add Event form & stats 
+//=====================//
+
+function updateStats() {
+    const totalEvents = events.length;
+    let totalSeats = 0;
+    let totalRevenue = 0;
+
+    for (let i = 0; i < events.length; i++) {
+        totalSeats = totalSeats + events[i].seats;
+        totalRevenue = totalRevenue + events[i].seats * events[i].price;
+    }
+
+    statTotalEvents.textContent = totalEvents;
+    statTotalSeats.textContent = totalSeats;
+    statTotalPrice.textContent = "$" + totalRevenue.toFixed(2);
+}
+
+eventForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // FORM VALIDATION PART
+
+    // --- REGEX RULES ---
+    const regextitle = /^[a-zA-ZÀ-ÿ0-9\s'.,-]{2,100}$/;
+    const regeximageurl = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg))$/i;
+    const regexdescription = /^[\wÀ-ÿ\s.,'?!-]{10,500}$/;
+    const regexnombrseats = /^[1-9][0-9]{0,2}$/;
+    const regexprixbase = /^(?:\d+|\d+\.\d{1,2})$/;
+
+    // --- INPUTS ---
+    const titleInput = document.querySelector("#event-title");
+    const imageInput = document.querySelector("#event-image");
+    const descriptionInput = document.querySelector("#event-description");
+    const seatsInput = document.querySelector("#event-seats");
+    const priceInput = document.querySelector("#event-price");
+    const errormsg = document.querySelector(".alert");
+
+    const title = titleInput.value.trim();
+    const imageurl = imageInput.value.trim();
+    const description = descriptionInput.value.trim();
+    const nombrseats = seatsInput.value.trim();
+    const prixbase = priceInput.value.trim();
+
+    // --- VALIDATION ---
+    if (!regextitle.test(title)) {
+        errormsg.classList.remove("is-hidden");
+        errormsg.textContent = "Le titre est invalide, essayez une autre fois.";
+        titleInput.focus();
+        return;
+    }
+    if (!regeximageurl.test(imageurl)) {
+        errormsg.classList.remove("is-hidden");
+        errormsg.textContent = "L'URL de l'image est invalide, essayez une autre fois.";
+        imageInput.focus();
+        return;
+    }
+    if (!regexdescription.test(description)) {
+        errormsg.classList.remove("is-hidden");
+        errormsg.textContent = "La description est invalide, essayez une autre fois.";
+        descriptionInput.focus();
+        return;
+    }
+    if (!regexnombrseats.test(nombrseats)) {
+        errormsg.classList.remove("is-hidden");
+        errormsg.textContent = "Le nombre de places est invalide, essayez une autre fois.";
+        seatsInput.focus();
+        return;
+    }
+    if (!regexprixbase.test(prixbase)) {
+        errormsg.classList.remove("is-hidden");
+        errormsg.textContent = "Le prix est invalide, essayez une autre fois.";
+        priceInput.focus();
+        return;
+    }
+
+    // --- IF EVERYTHING IS VALID ---
+    errormsg.classList.add("is-hidden");
+
+    const newEvent = {
+        title: title,
+        image: imageurl,
+        description: description,
+        seats: parseInt(nombrseats),
+        price: parseFloat(prixbase)
+    };
+
+    events.push(newEvent);
+    updateStats();
+    eventForm.reset();
+});
+
+
+
+
+
