@@ -2,6 +2,7 @@
 
 let events = [];
 let archive = [];
+let variantCounter = 0;
 
 const btnStats = document.querySelectorAll(".sidebar__btn");
 const screens = document.querySelectorAll(".screen");
@@ -10,6 +11,8 @@ const eventForm = document.getElementById("event-form");
 const statTotalEvents = document.getElementById("stat-total-events");
 const statTotalSeats = document.getElementById("stat-total-seats");
 const statTotalPrice = document.getElementById("stat-total-price");
+
+const listdata = document.querySelector(".table__body");
 
 
 
@@ -137,7 +140,58 @@ eventForm.addEventListener('submit', function (e) {
     events.push(newEvent);
     updateStats();
     eventForm.reset();
+    listevents();
 });
+
+
+//  VARIANTS SECTION  //
+
+function add_variants() {
+    const variants_list = document.querySelector(".variants__list");
+    variants_list.innerHTML += `
+  <div class="variant-row">
+    <input type="text" class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')"/>
+    <input type="number" class="input variant-row__qty" placeholder="Qty" min="1"/>
+    <input type="number" class="input variant-row__value" placeholder="Value" step="0.01"/>
+    <select class="select variant-row__type">
+      <option value="fixed">Fixed Price</option>
+      <option value="percentage">Percentage Off</option>
+    </select>
+    <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>
+  </div>`;
+}
+
+
+
+//======================//
+// 2 - list Events
+//=====================//
+
+
+function listevents() {
+  listdata.innerHTML = "";
+  let events_counter = 1;
+
+  events.forEach(event => {
+    listdata.innerHTML += `
+      <tr class="table__row">
+        <td>${events_counter++}</td>
+        <td>${event.title}</td>
+        <td>${event.seats}</td>
+        <td><span class="badge">$${event.price.toFixed(2)}</span></td>
+        <td>
+          <button class="btn btn--small" data-action="details">Details</button>
+          <button class="btn btn--small" data-action="edit">Edit</button>
+          <button class="btn btn--danger btn--small" data-action="delete">Delete</button>
+        </td>
+      </tr>`;
+  });
+}
+
+
+
+
+
 
 
 
