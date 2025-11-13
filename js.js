@@ -53,7 +53,7 @@ function switchScreen(btn) {
 //=====================//
 
 function updateStats() {
-    const totalEvents = events.length; 
+    const totalEvents = events.length;
     let totalSeats = 0;
     let totalRevenue = 0;
 
@@ -167,46 +167,45 @@ function add_variants() {
 
 
 function listevents() {
-  listdata.innerHTML = ""; // clear table body
+    listdata.innerHTML = ""; // clear table body
 
-  events.forEach((event, index) => {
-    listdata.innerHTML += `
+    events.forEach((event, index) => {
+        listdata.innerHTML += `
       <tr class="table__row">
         <td>${index + 1}</td>
         <td>${event.title}</td>
         <td>${event.seats}</td>
         <td><span class="badge">$${event.price.toFixed(2)}</span></td>
         <td>
-          <button class="btn btn--small" data-action="details">Details</button>
-          <button class="btn btn--small" data-action="edit">Edit</button>
+         <button class="btn btn--small" data-action="details" onclick="showDetails(${index})">Details</button>
+          <button class="btn btn--small" data-action="edit" onclick="editDeatails(${index})">Edit</button>
           <button class="btn btn--danger btn--small" onclick="deleteevent(${index})" data-action="delete">Delete</button>
         </td>
       </tr>`;
-  });
+    });
 }
 
 // implementation of search bar function
 let filter = document.getElementById("search-events");
-filter.addEventListener('keyup', function(){
-  let search = this.value.toLowerCase();
-  let list = document.querySelectorAll(".table__row");
+filter.addEventListener('keyup', function () {
+    let search = this.value.toLowerCase();
+    let list = document.querySelectorAll(".table__row");
 
-  for( let i of list)
-  {
-    let item = i.innerHTML.toLowerCase();
-    if (item.indexOf(search) == -1) 
-      i.classList.add('hide');
-    else
-        i.classList.remove('hide');
+    for (let i of list) {
+        let item = i.innerHTML.toLowerCase();
+        if (item.indexOf(search) == -1)
+            i.classList.add('hide');
+        else
+            i.classList.remove('hide');
 
-  }
+    }
 })
 
 //  implementation of delete data function
 function deleteevent(index) {
-  events.splice(index, 1);
-  listevents();
-  updateStats();
+    events.splice(index, 1);
+    listevents();
+    updateStats();
 }
 
 
@@ -218,12 +217,12 @@ function bubbleSortEvents(type) {
     let swapped = true;
 
     while (swapped) {
-        swapped = false; 
-        let i = 0; 
+        swapped = false;
+        let i = 0;
 
         while (i < n - 1) {
             let shouldSwap = false;
-            
+
             switch (type) {
                 case "title-asc":
                     if (events[i].title.toLowerCase() > events[i + 1].title.toLowerCase()) {
@@ -254,17 +253,74 @@ function bubbleSortEvents(type) {
                     break;
             }
 
-           
+
             if (shouldSwap) {
                 let temp = events[i];
                 events[i] = events[i + 1];
                 events[i + 1] = temp;
-                swapped = true; 
+                swapped = true;
 
-            i++; 
+                i++;
+            }
+
+            n--;
         }
-
-        n--;
     }
 }
+
+// implementation of show details function
+function showDetails(index) {
+    const event = events[index];
+    const modal = document.getElementById("event-modal");
+    const modalBody = document.getElementById("modal-body");
+    const modalTitle = document.getElementById("modal-title");
+
+    // Fill modal content
+    modalTitle.textContent = event.title;
+    modalBody.innerHTML = `
+    <p><strong>Description:</strong> ${event.description}</p>
+    <p><strong>Seats:</strong> ${event.seats}</p>
+    <p><strong>Price:</strong> $${event.price.toFixed(2)}</p>
+  `;
+
+    // Show modal
+    modal.classList.remove("is-hidden");
+
+    // Close modal )
+    const closeModal = () => modal.classList.add("is-hidden");
+
+    modal.querySelector("[data-action='close-modal']").onclick = closeModal;
+}
+
+// implementation of edit function 
+function editDeatails(index) {
+  const event = events[index];
+
+  // Ask user for new values
+  const newTitle = prompt("Enter new title:", event.title);
+  if (newTitle === null) return; 
+
+  const newImage = prompt("Enter new image URL:", event.image);
+  if (newImage === null) return;
+
+  const newDesc = prompt("Enter new description:", event.description);
+  if (newDesc === null) return;
+
+  const newSeats = prompt("Enter new seats number:", event.seats);
+  if (newSeats === null || isNaN(newSeats)) return;
+
+  const newPrice = prompt("Enter new price:", event.price);
+  if (newPrice === null || isNaN(newPrice)) return;
+
+  // Update event data
+  event.title = newTitle;
+  event.image = newImage;
+  event.description = newDesc;
+  event.seats = parseInt(newSeats);
+  event.price = parseFloat(newPrice);
+
+  listevents();
+  updateStats();
+
+  alert("Event updated successfully!");
 }
