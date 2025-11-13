@@ -1,5 +1,4 @@
 // Variables
-
 let events = [];
 let archive = [];
 let variantCounter = 0;
@@ -54,7 +53,7 @@ function switchScreen(btn) {
 //=====================//
 
 function updateStats() {
-    const totalEvents = events.length;
+    const totalEvents = events.length; 
     let totalSeats = 0;
     let totalRevenue = 0;
 
@@ -126,7 +125,6 @@ eventForm.addEventListener('submit', function (e) {
         return;
     }
 
-    // --- IF EVERYTHING IS VALID ---
     errormsg.classList.add("is-hidden");
 
     const newEvent = {
@@ -157,7 +155,7 @@ function add_variants() {
       <option value="fixed">Fixed Price</option>
       <option value="percentage">Percentage Off</option>
     </select>
-    <button type="button" class="btn btn--danger btn--small variant-row__remove">Remove</button>
+    <button type="button" class="btn btn--danger btn--small variant-row__remove" >Remove</button>
   </div>`;
 }
 
@@ -169,31 +167,104 @@ function add_variants() {
 
 
 function listevents() {
-  listdata.innerHTML = "";
-  let events_counter = 1;
+  listdata.innerHTML = ""; // clear table body
 
-  events.forEach(event => {
+  events.forEach((event, index) => {
     listdata.innerHTML += `
       <tr class="table__row">
-        <td>${events_counter++}</td>
+        <td>${index + 1}</td>
         <td>${event.title}</td>
         <td>${event.seats}</td>
         <td><span class="badge">$${event.price.toFixed(2)}</span></td>
         <td>
           <button class="btn btn--small" data-action="details">Details</button>
           <button class="btn btn--small" data-action="edit">Edit</button>
-          <button class="btn btn--danger btn--small" data-action="delete">Delete</button>
+          <button class="btn btn--danger btn--small" onclick="deleteevent(${index})" data-action="delete">Delete</button>
         </td>
       </tr>`;
   });
 }
 
+// implementation of search bar function
+let filter = document.getElementById("search-events");
+filter.addEventListener('keyup', function(){
+  let search = this.value.toLowerCase();
+  let list = document.querySelectorAll(".table__row");
+
+  for( let i of list)
+  {
+    let item = i.innerHTML.toLowerCase();
+    if (item.indexOf(search) == -1) 
+      i.classList.add('hide');
+    else
+        i.classList.remove('hide');
+
+  }
+})
+
+//  implementation of delete data function
+function deleteevent(index) {
+  events.splice(index, 1);
+  listevents();
+  updateStats();
+}
 
 
 
+// implementation of sort data 
 
+function bubbleSortEvents(type) {
+    let n = events.length;
+    let swapped = true;
 
+    while (swapped) {
+        swapped = false; 
+        let i = 0; 
 
+        while (i < n - 1) {
+            let shouldSwap = false;
+            
+            switch (type) {
+                case "title-asc":
+                    if (events[i].title.toLowerCase() > events[i + 1].title.toLowerCase()) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "title-desc":
+                    if (events[i].title.toLowerCase() < events[i + 1].title.toLowerCase()) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "price-asc":
+                    if (events[i].price > events[i + 1].price) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "price-desc":
+                    if (events[i].price < events[i + 1].price) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "seats-asc":
+                    if (events[i].seats > events[i + 1].seats) {
+                        shouldSwap = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
 
+           
+            if (shouldSwap) {
+                let temp = events[i];
+                events[i] = events[i + 1];
+                events[i + 1] = temp;
+                swapped = true; 
 
+            i++; 
+        }
 
+        n--;
+    }
+}
+}

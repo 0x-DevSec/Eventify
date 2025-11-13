@@ -419,14 +419,6 @@ textarea.input {
   align-items: flex-end;
 }
 
-.variant-row__name,
-.variant-row__qty,
-.variant-row__value,
-.variant-row__type,
-.variant-row__remove {
-  /* inherit styles from .input, .select, .btn */
-}
-
 @media (max-width: 768px) {
   .variant-row {
     grid-template-columns: 1fr;
@@ -922,5 +914,9 @@ textarea.input {
 .error {
   border-color: var(--color-danger);
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+.hide
+{
+  display: none;
 }
 
