@@ -46,6 +46,10 @@ function switchScreen(btn) {
 
     // Update page header
     document.getElementById("page-title").textContent = btn.querySelector(".sidebar__label").textContent;
+
+    if (target === "archive") {
+        listArchive();
+    }
 }
 
 //======================//
@@ -179,6 +183,7 @@ function listevents() {
         <td>
          <button class="btn btn--small" data-action="details" onclick="showDetails(${index})">Details</button>
           <button class="btn btn--small" data-action="edit" onclick="editDeatails(${index})">Edit</button>
+          <button class="btn btn--small btn--warning" onclick="moveToArchive(${index})" data-action="archive">Archive</button>
           <button class="btn btn--danger btn--small" onclick="deleteevent(${index})" data-action="delete">Delete</button>
         </td>
       </tr>`;
@@ -207,7 +212,6 @@ function deleteevent(index) {
     listevents();
     updateStats();
 }
-
 
 
 // implementation of sort data 
@@ -294,33 +298,46 @@ function showDetails(index) {
 
 // implementation of edit function 
 function editDeatails(index) {
-  const event = events[index];
+    const event = events[index];
 
-  // Ask user for new values
-  const newTitle = prompt("Enter new title:", event.title);
-  if (newTitle === null) return; 
+    // Ask user for new values
+    const newTitle = prompt("Enter new title:", event.title);
+    if (newTitle === null) return;
 
-  const newImage = prompt("Enter new image URL:", event.image);
-  if (newImage === null) return;
+    const newImage = prompt("Enter new image URL:", event.image);
+    if (newImage === null) return;
 
-  const newDesc = prompt("Enter new description:", event.description);
-  if (newDesc === null) return;
+    const newDesc = prompt("Enter new description:", event.description);
+    if (newDesc === null) return;
 
-  const newSeats = prompt("Enter new seats number:", event.seats);
-  if (newSeats === null || isNaN(newSeats)) return;
+    const newSeats = prompt("Enter new seats number:", event.seats);
+    if (newSeats === null || isNaN(newSeats)) return;
 
-  const newPrice = prompt("Enter new price:", event.price);
-  if (newPrice === null || isNaN(newPrice)) return;
+    const newPrice = prompt("Enter new price:", event.price);
+    if (newPrice === null || isNaN(newPrice)) return;
 
-  // Update event data
-  event.title = newTitle;
-  event.image = newImage;
-  event.description = newDesc;
-  event.seats = parseInt(newSeats);
-  event.price = parseFloat(newPrice);
+    // Update event data
+    event.title = newTitle;
+    event.image = newImage;
+    event.description = newDesc;
+    event.seats = parseInt(newSeats);
+    event.price = parseFloat(newPrice);
 
-  listevents();
-  updateStats();
+    listevents();
+    updateStats();
 
-  alert("Event updated successfully!");
+    alert("Event updated successfully!");
 }
+
+
+// archive function
+function moveToArchive(index) {
+    index = Number(index);
+    const removedEvent = events.splice(index, 1)[0];
+    archive.push(removedEvent);
+    listevents();
+    listArchive();
+    updateStats();
+}
+
+console.log(archive);
