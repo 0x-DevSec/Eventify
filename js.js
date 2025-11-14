@@ -355,3 +355,14 @@ function listArchive() {
       </tr>`;
     });
 }
+
+// Restor from archive function
+function restoreFromArchive(index) {
+    if (archive[index]) {
+        const restoredEvent = archive.splice(index, 1)[0];
+        events.push(restoredEvent);
+        listevents();
+        listArchive();
+        updateStats();
+    }
+}
