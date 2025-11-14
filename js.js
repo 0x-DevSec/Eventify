@@ -1,7 +1,7 @@
 // Variables
-
 let events = [];
 let archive = [];
+let variantCounter = 0;
 
 const btnStats = document.querySelectorAll(".sidebar__btn");
 const screens = document.querySelectorAll(".screen");
@@ -10,6 +10,8 @@ const eventForm = document.getElementById("event-form");
 const statTotalEvents = document.getElementById("stat-total-events");
 const statTotalSeats = document.getElementById("stat-total-seats");
 const statTotalPrice = document.getElementById("stat-total-price");
+
+const listdata = document.querySelector(".table__body");
 
 
 
@@ -44,6 +46,10 @@ function switchScreen(btn) {
 
     // Update page header
     document.getElementById("page-title").textContent = btn.querySelector(".sidebar__label").textContent;
+
+    if (target === "archive") {
+        listArchive();
+    }
 }
 
 //======================//
@@ -123,7 +129,6 @@ eventForm.addEventListener('submit', function (e) {
         return;
     }
 
-    // --- IF EVERYTHING IS VALID ---
     errormsg.classList.add("is-hidden");
 
     const newEvent = {
@@ -137,9 +142,227 @@ eventForm.addEventListener('submit', function (e) {
     events.push(newEvent);
     updateStats();
     eventForm.reset();
+    listevents();
 });
 
 
+//  VARIANTS SECTION  //
+
+function add_variants() {
+    const variants_list = document.querySelector(".variants__list");
+    variants_list.innerHTML += `
+  <div class="variant-row">
+    <input type="text" class="input variant-row__name" placeholder="Variant name (e.g., 'Early Bird')"/>
+    <input type="number" class="input variant-row__qty" placeholder="Qty" min="1"/>
+    <input type="number" class="input variant-row__value" placeholder="Value" step="0.01"/>
+    <select class="select variant-row__type">
+      <option value="fixed">Fixed Price</option>
+      <option value="percentage">Percentage Off</option>
+    </select>
+    <button type="button" class="btn btn--danger btn--small variant-row__remove" >Remove</button>
+  </div>`;
+}
 
 
 
+//======================//
+// 2 - list Events
+//=====================//
+
+
+function listevents() {
+    listdata.innerHTML = ""; // clear table body
+
+    events.forEach((event, index) => {
+        listdata.innerHTML += `
+      <tr class="table__row">
+        <td>${index + 1}</td>
+        <td>${event.title}</td>
+        <td>${event.seats}</td>
+        <td><span class="badge">$${event.price.toFixed(2)}</span></td>
+        <td>
+         <button class="btn btn--small" data-action="details" onclick="showDetails(${index})">Details</button>
+          <button class="btn btn--small" data-action="edit" onclick="editDeatails(${index})">Edit</button>
+          <button class="btn btn--small btn--warning" onclick="moveToArchive(${index})" data-action="archive">Archive</button>
+          <button class="btn btn--danger btn--small" onclick="deleteevent(${index})" data-action="delete">Delete</button>
+        </td>
+      </tr>`;
+    });
+}
+
+// implementation of search bar function
+let filter = document.getElementById("search-events");
+filter.addEventListener('keyup', function () {
+    let search = this.value.toLowerCase();
+    let list = document.querySelectorAll(".table__row");
+
+    for (let i of list) {
+        let item = i.innerHTML.toLowerCase();
+        if (item.indexOf(search) == -1)
+            i.classList.add('hide');
+        else
+            i.classList.remove('hide');
+
+    }
+})
+
+//  implementation of delete data function
+function deleteevent(index) {
+    events.splice(index, 1);
+    listevents();
+    updateStats();
+}
+
+
+
+// implementation of sort data 
+
+function bubbleSortEvents(type) {
+    let n = events.length;
+    let swapped = true;
+
+    while (swapped) {
+        swapped = false;
+        let i = 0;
+
+        while (i < n - 1) {
+            let shouldSwap = false;
+
+            switch (type) {
+                case "title-asc":
+                    if (events[i].title.toLowerCase() > events[i + 1].title.toLowerCase()) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "title-desc":
+                    if (events[i].title.toLowerCase() < events[i + 1].title.toLowerCase()) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "price-asc":
+                    if (events[i].price > events[i + 1].price) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "price-desc":
+                    if (events[i].price < events[i + 1].price) {
+                        shouldSwap = true;
+                    }
+                    break;
+                case "seats-asc":
+                    if (events[i].seats > events[i + 1].seats) {
+                        shouldSwap = true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+
+            if (shouldSwap) {
+                let temp = events[i];
+                events[i] = events[i + 1];
+                events[i + 1] = temp;
+                swapped = true;
+
+                i++;
+            }
+
+            n--;
+        }
+    }
+}
+
+// implementation of show details function
+function showDetails(index) {
+    const event = events[index];
+    const modal = document.getElementById("event-modal");
+    const modalBody = document.getElementById("modal-body");
+    const modalTitle = document.getElementById("modal-title");
+
+    // Fill modal content
+    modalTitle.textContent = event.title;
+    modalBody.innerHTML = `
+    <p><strong>Description:</strong> ${event.description}</p>
+    <p><strong>Seats:</strong> ${event.seats}</p>
+    <p><strong>Price:</strong> $${event.price.toFixed(2)}</p>
+  `;
+    modal.classList.remove("is-hidden");
+    const closeModal = () => modal.classList.add("is-hidden");
+    modal.querySelector("[data-action='close-modal']").onclick = closeModal;
+}
+
+// implementation of edit function 
+function editDeatails(index) {
+    const event = events[index];
+
+    // Ask user for new values
+    const newTitle = prompt("Enter new title:", event.title);
+    if (newTitle === null) return;
+
+    const newImage = prompt("Enter new image URL:", event.image);
+    if (newImage === null) return;
+
+    const newDesc = prompt("Enter new description:", event.description);
+    if (newDesc === null) return;
+
+    const newSeats = prompt("Enter new seats number:", event.seats);
+    if (newSeats === null || isNaN(newSeats)) return;
+
+    const newPrice = prompt("Enter new price:", event.price);
+    if (newPrice === null || isNaN(newPrice)) return;
+
+    // Update event data
+    event.title = newTitle;
+    event.image = newImage;
+    event.description = newDesc;
+    event.seats = parseInt(newSeats);
+    event.price = parseFloat(newPrice);
+    listevents();
+    updateStats();
+    alert("Event updated successfully!");
+}
+
+
+// archive function
+function moveToArchive(index) {
+    const removedEvent = events.splice(index, 1)[0];
+    archive.push(removedEvent);
+    listevents();
+    listArchive();
+    updateStats();
+}
+
+// display archive
+function listArchive() {
+    const archiveTable = document.querySelector('#archive-table .table__body');
+    if (!archiveTable) return;
+
+    archiveTable.innerHTML = "";
+
+    archive.forEach((event, index) => {
+        archiveTable.innerHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${event.title}</td>
+        <td>${event.seats}</td>
+        <td>$${event.price.toFixed(2)}</td>
+        <td>
+          <button class="btn btn--small" onclick="restoreFromArchive(${index})">
+            Restore
+          </button>
+        </td>
+      </tr>`;
+    });
+}
+
+// Restor from archive function
+function restoreFromArchive(index) {
+    if (archive[index]) {
+        const restoredEvent = archive.splice(index, 1)[0];
+        events.push(restoredEvent);
+        listevents();
+        listArchive();
+        updateStats();
+    }
+}
