@@ -214,6 +214,7 @@ function deleteevent(index) {
 }
 
 
+
 // implementation of sort data 
 
 function bubbleSortEvents(type) {
@@ -286,13 +287,8 @@ function showDetails(index) {
     <p><strong>Seats:</strong> ${event.seats}</p>
     <p><strong>Price:</strong> $${event.price.toFixed(2)}</p>
   `;
-
-    // Show modal
     modal.classList.remove("is-hidden");
-
-    // Close modal )
     const closeModal = () => modal.classList.add("is-hidden");
-
     modal.querySelector("[data-action='close-modal']").onclick = closeModal;
 }
 
@@ -322,17 +318,14 @@ function editDeatails(index) {
     event.description = newDesc;
     event.seats = parseInt(newSeats);
     event.price = parseFloat(newPrice);
-
     listevents();
     updateStats();
-
     alert("Event updated successfully!");
 }
 
 
 // archive function
 function moveToArchive(index) {
-    index = Number(index);
     const removedEvent = events.splice(index, 1)[0];
     archive.push(removedEvent);
     listevents();
@@ -340,4 +333,25 @@ function moveToArchive(index) {
     updateStats();
 }
 
-console.log(archive);
+// display archive
+function listArchive() {
+    const archiveTable = document.querySelector('#archive-table .table__body');
+    if (!archiveTable) return;
+
+    archiveTable.innerHTML = "";
+
+    archive.forEach((event, index) => {
+        archiveTable.innerHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${event.title}</td>
+        <td>${event.seats}</td>
+        <td>$${event.price.toFixed(2)}</td>
+        <td>
+          <button class="btn btn--small" onclick="restoreFromArchive(${index})">
+            Restore
+          </button>
+        </td>
+      </tr>`;
+    });
+}
